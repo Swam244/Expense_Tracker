@@ -1,0 +1,94 @@
+{% extends "base_auth.html" %}
+{% load static %}
+{% block content %}
+<style>
+    .card {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .card-title {
+        padding: 15px;
+        text-align: center;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+    }
+    .card-body {
+        padding: 20px;
+    }
+    .btn-block {
+        width: 100%;
+    }
+    .form-group small {
+        cursor: pointer;
+        display: block;
+        text-align: right;
+        font-size: 12px; /* Adjust the font size as needed */
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .btn-primary {
+        margin-top: 10px;
+    }
+    .row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-lg-4">
+            <div class="card mt-5">
+                <div class="card-title">
+                    <h4>Register for a Free Account</h4>
+                </div>
+                <div class="card-body">
+                    <form action="{% url 'register' %}" method="post">
+                        {% csrf_token %}
+                        {% include 'partials/_messages.html' %}
+                        <div class="form-group">
+                            <input type="text" name="username" id="usernameField" class="form-control form-control-sm" placeholder="Username" value="{{values.username}}">
+                        </div>
+                        <div class="invalid-feedback" style="display:none;"></div>
+                        <p class="text-sm text-success usernameSuccessOutput"></p>
+                        <div class="form-group">
+                            <input type="email" name="email" id="emailField" class="form-control form-control-sm" placeholder="Email" value="{{values.email}}">
+                        </div>
+                        <div class="emailfeedbackField invalid-feedback" style="display:none;"></div>
+                        <div class="form-group">
+                            <input type="password" name="password1" id="passwordField1" class="form-control form-control-sm" placeholder="Password" value="{{values.password1}}">
+                            <small class="mt-1">SHOW</small>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password2" id="passwordField2" class="form-control form-control-sm" placeholder="Confirm Password" value="{{values.password2}}">
+                            <small class="mt-2">SHOW</small>
+                        </div>
+                        <input type="submit" value="Register" class="btn btn-primary btn-block submit-btn">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+<script src="{% static 'js/register.js' %}"></script>
+<script>
+    document.querySelectorAll('.form-group small').forEach(function(smallElement) {
+        smallElement.addEventListener('click', function () {
+            const passwordField = this.previousElementSibling;
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                this.textContent = 'HIDE';
+            } else {
+                passwordField.type = 'password';
+                this.textContent = 'SHOW';
+            }
+        });
+    });
+</script>
+
+{% endblock content %}
