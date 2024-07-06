@@ -12,6 +12,15 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from django.contrib.auth import authenticate,login,logout
 from .utils import token_generator
+import threading
+
+class EmailThread(threading.Thread):
+    def __init__(self,email):
+        self.email = email
+        threading.Thread.__init__(self)
+    
+    def run(self):
+        self.email.send(fail_silently=False) 
 
 class UsernameValidationView(View):
     def post(self,request):
@@ -83,7 +92,7 @@ class RegistrationView(View):
                                     "noreply@expenseTracker.com",
                                     [email],
                 )
-                sendMail.send(fail_silently=False)
+                EmailThread(sendMail).start()
                 
                 newUser.save()
                 messages.success(request,"Account Created Successfully !!")

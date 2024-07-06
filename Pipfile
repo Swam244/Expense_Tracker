@@ -8,6 +8,8 @@ django = "*"
 validate-email = "*"
 psycopg2 = "*"
 six = "*"
+xlwt = "*"
+weasyprint = "*"
 
 [dev-packages]
 
