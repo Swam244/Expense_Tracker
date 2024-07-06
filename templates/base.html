@@ -19,18 +19,21 @@
       rel="stylesheet"
     />
     <!-- Custom styles for this template -->
-    
 
-    <link href="{% static "css/dashboard.css" %}" rel="stylesheet">
+  <link href="{% static "css/dashboard.css" %}" rel="stylesheet">
   </head>
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap shadow d-flex justify-content-between align-items-center">
       <a class="navbar-brand col-sm-3 col-md-2" href="#" style="padding-left: 20px;">TrulyExpenses</a>
-      <input class="form-control form-control-dark w-50 mx-auto" type="text" placeholder="Search" aria-label="Search">
       <ul class="navbar-nav px-3 d-flex align-items-center">
-          <li class="nav-item text-nowrap">
-              <form action="{%url 'logout'%}" class="mb-0" style="margin-top: 10px;" method="post">
-                  {%csrf_token%}
+          <li class="nav-item text-nowrap d-flex align-items-center">
+              {% if user.is_authenticated %}
+                  <span class="navbar-text nav-link" style="color: gray; margin-right: 10px;">
+                      [ <strong>{{ user.username|upper }}</strong> ]
+                  </span>
+              {% endif %}
+              <form action="{% url 'logout' %}" class="mb-0" style="margin-top: 10px;" method="post">
+                  {% csrf_token %}
                   <input type="submit" value="Sign out" class="btn btn-outline-light">
               </form>
           </li>
@@ -38,9 +41,7 @@
               <a class="nav-link" href="#"></a>
           </li>
       </ul>
-  </nav>
-  
-    
+  </nav>    
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
       <symbol id="check2" viewBox="0 0 16 16">
         <path
@@ -264,14 +265,14 @@
         </li>
       </ul>
 
-      <div id="navbarSearch" class="navbar-search w-100 collapse">
+      {% comment %} <div id="navbarSearch" class="navbar-search w-100 collapse">
         <input
           class="form-control w-100 rounded-0 border-0"
           type="text"
           placeholder="Search"
           aria-label="Search"
         />
-      </div>
+      </div> {% endcomment %}
     </header>
 
     <div class="container-fluid">
