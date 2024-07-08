@@ -10,6 +10,7 @@ psycopg2 = "*"
 six = "*"
 xlwt = "*"
 weasyprint = "*"
+xhtml2pdf = "*"
 
 [dev-packages]
 

@@ -20,5 +20,28 @@
     <body>
         <img src="{%static 'img/applogo.png'%}" alt="">
         <script src="" async defer></script>
+        <div class="app-table">
+            <table class="table table-stripped table-hover mt-3">
+                <thead>
+                    <tr>
+                        <th>Amount in ({{currency}})</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for expense in values %}
+                    <tr>
+                        <td>{{expense.amount}}</td>
+                        <td>{{expense.category}}</td>
+                        <td>{{expense.date}}</td>
+                        <td>{{expense.description}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>    
+        </div>
     </body>
 </html>

@@ -13,7 +13,7 @@ usernameField.addEventListener("keyup", (e) =>{
     usernameField.classList.remove("is-invalid");
     feedbackField.style.display = "none";
     if( usernameVal.length > 0){
-        fetch("/authentication/validate-username",{
+        fetch("/validate-username",{
             body: JSON.stringify({username:usernameVal}),
             method:"POST",
         }).then(res=>res.json()).then(data=>{
@@ -40,7 +40,7 @@ emailField.addEventListener("keyup", (e) =>{
     emailField.classList.remove("is-invalid");
     emailfeedbackField.style.display = "none";
     if( emailVal.length > 0){
-        fetch("/authentication/validate-email",{
+        fetch("/validate-email",{
             body: JSON.stringify({email:emailVal}),
             method:"POST",
         }).then(res=>res.json()).then(data=>{

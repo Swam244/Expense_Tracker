@@ -10,9 +10,14 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"
     />
-    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"> 
-    <link href="{% static "css/main.css" %}" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/main.css' %}" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
     <!-- Custom styles for this template -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css"
@@ -25,28 +30,47 @@
     ></script>
     <!-- Custom styles for this template -->
 
-  <link href="{% static "css/dashboard.css" %}" rel="stylesheet">
+    <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" />
   </head>
   <body>
-    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap shadow d-flex justify-content-between align-items-center">
-      <a class="navbar-brand col-sm-3 col-md-2" href="#" style="padding-left: 20px;">TrulyExpenses</a>
+    <nav
+      class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap shadow d-flex justify-content-between align-items-center"
+    >
+      <a
+        class="navbar-brand col-sm-3 col-md-2"
+        href="#"
+        style="padding-left: 20px"
+        >Expense Tracker</a
+      >
       <ul class="navbar-nav px-3 d-flex align-items-center">
-          <li class="nav-item text-nowrap d-flex align-items-center">
-              {% if user.is_authenticated %}
-                  <span class="navbar-text nav-link" style="color: gray; margin-right: 10px;">
-                      [ <strong>{{ user.username|upper }}</strong> ]
-                  </span>
-              {% endif %}
-              <form action="{% url 'logout' %}" class="mb-0" style="margin-top: 10px;" method="post">
-                  {% csrf_token %}
-                  <input type="submit" value="Sign out" class="btn btn-outline-light">
-              </form>
-          </li>
-          <li class="nav-item">
-              <a class="nav-link" href="#"></a>
-          </li>
+        <li class="nav-item text-nowrap d-flex align-items-center">
+          {% if user.is_authenticated %}
+          <span
+            class="navbar-text nav-link"
+            style="color: gray; margin-right: 10px"
+          >
+            [<strong>{{ user.username|upper }}</strong>]
+          </span>
+          {% endif %}
+          <form
+            action="{% url 'logout' %}"
+            class="mb-0"
+            style="margin-top: 10px"
+            method="post"
+          >
+            {% csrf_token %}
+            <input
+              type="submit"
+              value="Sign out"
+              class="btn btn-outline-light"
+            />
+          </form>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"></a>
+        </li>
       </ul>
-  </nav>    
+    </nav>
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
       <symbol id="check2" viewBox="0 0 16 16">
         <path
@@ -71,6 +95,7 @@
       </symbol>
     </svg>
 
+    {% comment %}
     <div
       class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle"
     >
@@ -141,6 +166,7 @@
         </li>
       </ul>
     </div>
+    {% endcomment %}
 
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
       <symbol id="calendar3" viewBox="0 0 16 16">
@@ -231,68 +257,14 @@
       </symbol>
     </svg>
 
-    <header
-      class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow"
-      data-bs-theme="dark"
-    >
-      <a
-        class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white"
-        href="#"
-        >Expense Tracker</a
-      >
-
-      <ul class="navbar-nav flex-row d-md-none">
-        <li class="nav-item text-nowrap">
-          <button
-            class="nav-link px-3 text-white"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSearch"
-            aria-controls="navbarSearch"
-            aria-expanded="false"
-            aria-label="Toggle search"
-          >
-            {% comment %} <svg class="bi"><use xlink:href="#search" /></svg> {% endcomment %}
-          </button>
-        </li>
-        <li class="nav-item text-nowrap">
-          <button
-            class="nav-link px-3 text-white"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#sidebarMenu"
-            aria-controls="sidebarMenu"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <svg class="bi"><use xlink:href="#list" /></svg>
-          </button>
-        </li>
-      </ul>
-
-      {% comment %} <div id="navbarSearch" class="navbar-search w-100 collapse">
-        <input
-          class="form-control w-100 rounded-0 border-0"
-          type="text"
-          placeholder="Search"
-          aria-label="Search"
-        />
-      </div> {% endcomment %}
-    </header>
-
-    <div class="container-fluid">
+    <div class="container-fluid mt-5">
       <div class="row">
         {% include "partials/_sidebar.html" %}
         <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4">
-          {% block content %}
-          
-
-
-
-          {% endblock content %}
+          {% block content %} {% endblock content %}
         </main>
       </div>
     </div>
-    <script src="{% static "js/main.js" %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
   </body>
 </html>

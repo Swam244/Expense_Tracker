@@ -38,6 +38,9 @@
                             {% for source in sources %}
                                 <option name="source" value="{{source.name}}">{{source.name}}</option>
                             {% endfor %}
+                            {% for src in personalsrc %}
+                                <option name="source" value="{{src.name}}">{{src.name}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="form-group">

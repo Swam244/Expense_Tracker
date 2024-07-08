@@ -1,7 +1,6 @@
 from django.shortcuts import render,redirect
 from django.views import View
 from django.http import JsonResponse,HttpResponse
-import json
 from django.contrib.auth.models import User
 from validate_email import validate_email
 from django.contrib import messages
@@ -12,6 +11,8 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
 from django.contrib.auth import authenticate,login,logout
 from .utils import token_generator
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+import json
 import threading
 
 class EmailThread(threading.Thread):
@@ -62,6 +63,9 @@ class RegistrationView(View):
         
         if not User.objects.filter(username=username).exists():
             if not User.objects.filter(email=email).exists():
+                if not username:
+                    messages.error(request,"Please Provide a Valid Username !!")
+                    return render(request,'authentication/register.html',loadPrevValues)
                 if password1!=password2:
                     messages.error(request,"Both Passwords Do not Match !!")
                     return render(request,'authentication/register.html',loadPrevValues)
@@ -135,7 +139,7 @@ class LoginView(View):
                 if user.is_active:
                     login(request,user)
                     messages.success(request,"Welcome " + username + ", \nYou're Now Logged In.")
-                    return redirect('expenses')
+                    return render(request,'index.html')
                 else:
                     messages.warning(request,"Your Account is Not Active.\nPlease check your email for verification link.")
                     return render(request,'authentication/login.html') 
@@ -148,3 +152,97 @@ class LogoutView(View):
         logout(request)
         messages.success(request,"You Have been Logged out !!")
         return redirect('login')
+    
+class PasswordResetView(View):
+    def get(self,request):
+        return render(request,'authentication/reset-password.html')
+    
+    def post(self,request):
+        email = request.POST['email']
+        context = {
+            'values':email
+        }
+        if not validate_email(email):
+            messages.error(request,"Please Enter a Valid Email ID")
+            return render(request,"authentication/reset-password.html",context)
+        
+        exists = User.objects.filter(email=email).exists()
+        if not exists:
+            messages.error(request,"This Email is Not Registered with us!")
+            return render(request,"authentication/reset-password.html",context)
+        
+        currUser = User.objects.filter(email=email)
+        print(currUser[0])
+        passwordtoken = PasswordResetTokenGenerator()
+        token = passwordtoken.make_token(currUser[0])
+        domain = get_current_site(request).domain
+        uidb64 = urlsafe_base64_encode(force_bytes(currUser[0].pk))
+        print(uidb64)
+        link = reverse('reset-user-password',kwargs={
+                    'uidb64':uidb64,
+                    'token':token
+                })
+        verificationLink = "http://"+domain+link
+        email_subject = "Password Reset Instructions."
+        email_body = "Hi "+currUser[0].username+" !!"+"\nPassword Reset was requested by your Account\n"+"\nPlease use this link to Reset Your Password\n"+verificationLink
+        sendMail = EmailMessage(
+                    email_subject,
+                    email_body,
+                    "noreply@expenseTracker.com",
+                    [email],
+                )
+        EmailThread(sendMail).start()
+        
+        messages.success(request,"Password Reset Mail has been sent. Please check your Inbox")
+        return render(request,"authentication/reset-password.html")
+    
+class CompletePasswordResetView(View):
+    
+    def get(self,request,uidb64,token):
+        userId = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=userId)
+        context = {
+            'uidb64':uidb64,
+            'token':token,
+            'mail':user
+        }    
+        return render(request,"authentication/setnew-password.html",context)
+    
+    def post(self,request,uidb64,token):
+        password = request.POST['password1']
+        password1 = request.POST['password2']
+        userId = force_str(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=userId)
+        context = {
+            'uidb64':uidb64,
+            'token':token,
+            'values':request.POST,
+            'mail':user
+        }
+        if not password1:
+            messages.error(request,"Please fill out both Fields")
+            return render(request,"authentication/setnew-password.html",context)
+        
+        if not password:
+            messages.error(request,"Please fill out both Fields")
+            return render(request,"authentication/setnew-password.html",context)
+        
+        if password != password1:
+            messages.error(request,"Both Passwords Do not Match!")
+            return render(request,"authentication/setnew-password.html",context)
+
+        if len(password)<5 or len(password1)<5:
+            messages.error(request,"Password Length Should be Atleast 5!")
+            return render(request,"authentication/setnew-password.html",context)
+
+        try:
+            userId = force_str(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=userId)
+            user.set_password(password)
+            user.save()
+            messages.success(request,"Password Reset Successfull !!")
+            return redirect('login')
+        
+        except Exception as ex:
+            messages.info(request,"Something Went Wrong!! \n Please Try Again")    
+            return render(request,"authentication/setnew-password.html",context)

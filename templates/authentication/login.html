@@ -10,9 +10,11 @@
         text-align: center;
         background-color: #f8f9fa;
         border-bottom: 1px solid #e9ecef;
+        margin-bottom: 0; /* Reduce bottom margin */
     }
     .card-body {
         padding: 20px;
+        margin-top: 10px; /* Reduce top margin */
     }
     .btn-block {
         width: 100%;
@@ -33,13 +35,38 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        height: 100vh;
+        height: 10vh;
+    }
+    .header-logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    .header-logo img {
+        width: 100px; /* Adjust the logo size as needed */
+    }
+    .header-logo h1 {
+        margin: 10px 0 0;
+        font-size: 36px; /* Adjust the font size as needed */
+        color: #0e0e0f;
+        font-family: 'Arial', sans-serif; /* Change font family as needed */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add text shadow */
+    }
+    .login-link {
+        display: block;
+        text-align: center;
+        margin-top: 15px;
     }
 </style>
 <div class="container">
+    <div class="header-logo mt-5">
+        <img src="{% static 'img/applogo.png' %}" alt="Logo"> <!-- Replace with your logo path -->
+        <h1>Personal Expense Tracker</h1>
+    </div>
     <div class="row">
         <div class="col-md-6 col-lg-4">
-            <div class="card mt-5">
+            <div class="card mt-3">
                 <div class="card-title">
                     <h4>Login to your Account</h4>
                 </div>
@@ -56,6 +83,12 @@
                         </div>
                         <input type="submit" value="Login" class="btn btn-primary btn-block submit-btn">
                     </form>
+                    <div class="login-link">
+                        <p>Don't have an account? <a href="{% url 'register' %}">Register</a></p>
+                    </div>
+                    <div class="login-link">
+                        <a href="{% url 'request-reset-link' %}">Forgot password</a>
+                    </div>
                 </div>
             </div>
         </div>

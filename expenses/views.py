@@ -1,14 +1,14 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from .models import Category,Expense
+from .models import Category,Expense,newCat
 from django.contrib import messages
 from django.utils.dateparse import parse_date
 from django.core.paginator import Paginator
 from django.http import JsonResponse,HttpResponse
 from userpreferences.models import UserPreferences
 from django.template.loader import render_to_string
-from weasyprint import HTML
 from django.db.models import Sum
+from .utils import html_to_pdf
 import tempfile
 import json
 import datetime
@@ -18,32 +18,39 @@ import os
 
 @login_required(login_url='authentication/login')   # Without login it cannot let the page reload.
 def index(request):
+    cat = newCat.objects.all()
     categories = Category.objects.all()
     expenses = Expense.objects.filter(owner=request.user)
-    currency = UserPreferences.objects.get(user = request.user).currency
+    currency = UserPreferences.objects.filter(user = request.user).exists()
     paginator = Paginator(expenses,5)
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
-    return render(request,"expenses/index.html",{'categories':categories,'expenses':expenses,'page_obj':page_object,'currency':currency})
+    if currency:
+        val = UserPreferences.objects.get(user=request.user).currency
+        print(val)
+    else:
+        val = "INR - Indian Rupee"
+    return render(request,"expenses/index.html",{'categories':categories,'expenses':expenses,'page_obj':page_object,'currency':val,'personalcat':cat})
 
 @login_required(login_url='authentication/login')   # Without login it cannot let the page reload.
 def add_expense(request):
+    cat = newCat.objects.all()
     categories = Category.objects.all()
     values = request.POST
     if request.method == "GET":
-        return render(request,"expenses/add-expense.html",{'categories':categories,'values':values})
+        return render(request,"expenses/add-expense.html",{'categories':categories,'values':values,'personalcat':cat})
     
     if request.method == "POST":
         
         amount = request.POST['amount']
         if not amount:
             messages.error(request,"Amount is required !!")
-            return render(request,"expenses/add-expense.html",{'categories':categories,'values':values})
+            return render(request,"expenses/add-expense.html",{'categories':categories,'values':values,'personalcat':cat})
         
         description = request.POST['description']
         if not description:
             messages.error(request,"Description is required !!")
-            return render(request,"expenses/add-expense.html",{'categories':categories,'values':values})
+            return render(request,"expenses/add-expense.html",{'categories':categories,'values':values,'personalcat':cat})
         
         category = request.POST['category']
         
@@ -55,16 +62,18 @@ def add_expense(request):
             return redirect('expenses')
         else:
             messages.error(request,"Please Specifiy Date of Expense")
-            return render(request,"expenses/add-expense.html",{'categories':categories,'values':values})
-    
+            return render(request,"expenses/add-expense.html",{'categories':categories,'values':values,'personalcat':cat})
+        
 @login_required(login_url='authentication/login')   # Without login it cannot let the page reload.
 def expense_edit(request,id):
+    cat = newCat.objects.all()
     categories = Category.objects.all()
     expense = Expense.objects.get(pk=id)
     context = {
         'expense':expense,
         'values':expense,
         'categories':categories,
+        'personalcat':cat,
     }
     if request.method == "GET":
         return render(request,'expenses/edit-expense.html',context)
@@ -200,3 +209,7 @@ def export_excel(request):
 #         response.write(output.read())
     
 #     return response
+def html2pdf(request):
+    values = Expense.objects.filter(owner=request.user)
+    pdf = html_to_pdf("expenses/pdf-output.html",{"values":values})
+    return HttpResponse(pdf,content_type="application/pdf")

@@ -38,6 +38,9 @@
                             {% for category in categories %}
                             <option name="category" value="{{category.name}}">{{category.name}}</option>
                             {% endfor %}
+                            {% for cat in personalcat %}
+                            <option name="category" value="{{cat.name}}">{{cat.name}}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="form-group">

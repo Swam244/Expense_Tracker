@@ -1,7 +1,7 @@
 const renderChart = (data, labels) => {
-    var ctx = document.getElementById("myChart").getContext("2d");
+    var ctx = document.getElementById("myChart1").getContext("2d");
     var myChart = new Chart(ctx, {
-      type: "doughnut",
+      type: "bar",
       data: {
         labels: labels,
         datasets: [
@@ -29,7 +29,7 @@ const renderChart = (data, labels) => {
         ],
       },
       options: {
-        aspectRatio :2,
+        aspectRatio :3,
         title: {
           display: true,
           text: "Expenses per category",
@@ -40,7 +40,7 @@ const renderChart = (data, labels) => {
   
   const getChartData = () => {
     console.log("fetching");
-    fetch("/expense_category_summary")
+    fetch("/expenses/expense_category_summary")
       .then((res) => res.json())
       .then((results) => {
         console.log("results", results);
@@ -55,4 +55,5 @@ const renderChart = (data, labels) => {
   };
   
   window.onload = getChartData;
+
   
