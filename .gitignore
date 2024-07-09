@@ -1,4 +1,4 @@
-.env
+*.env
 styles.css
 script.js
 futureCharts.js
