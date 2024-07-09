@@ -10,6 +10,10 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@docsearch/css@3"
     />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" />
     <link href="{% static 'css/main.css' %}" rel="stylesheet" />
     <link
@@ -31,26 +35,66 @@
     <!-- Custom styles for this template -->
 
     <link href="{% static 'css/dashboard.css' %}" rel="stylesheet" />
+    <style>
+      .rajdhani-light {
+        font-family: "Rajdhani", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+      }
+      
+      .rajdhani-regular {
+        font-family: "Rajdhani", sans-serif;
+        font-weight: 400;
+        font-size: 125%;
+        font-style: normal;
+      }
+      
+      .rajdhani-medium {
+        font-family: "Rajdhani", sans-serif;
+        font-weight: 500;
+        font-style: normal;
+      }
+      
+      .rajdhani-semibold {
+        font-family: "Rajdhani", sans-serif;
+        font-weight: 600;
+        font-style: normal;
+      }
+      
+      .rajdhani-bold {
+        font-family: "Rajdhani", sans-serif;
+        font-weight: 700;
+        font-size: 175%;
+        font-style: normal;
+      }
+      
+    </style>
   </head>
   <body>
     <nav
       class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap shadow d-flex justify-content-between align-items-center"
     >
-      <a
-        class="navbar-brand col-sm-3 col-md-2"
-        href="#"
-        style="padding-left: 20px"
-        >Expense Tracker</a
-      >
+    <a
+    class="navbar-brand col-sm-3 col-md-2 rajdhani-regular"
+    href="#"
+    style="padding-left: 20px"
+    >Expense Tracker <img src="{%static 'img/applogo.png'%}" style="width: 35px;" class="ml-2"></a>
+    
       <ul class="navbar-nav px-3 d-flex align-items-center">
         <li class="nav-item text-nowrap d-flex align-items-center">
           {% if user.is_authenticated %}
           <span
-            class="navbar-text nav-link"
-            style="color: gray; margin-right: 10px"
-          >
-            [<strong>{{ user.username|upper }}</strong>]
-          </span>
+          class="navbar-text nav-link rajdhani-light"
+          style="color: gray; margin-right: 10px"
+        >
+          [<strong>{{ user.username|upper }}</strong>]
+        </span>
+        <span
+          class="navbar-text nav-link rajdhani-light"
+          style="color: gray; margin-right: 10px"
+        >
+          [ <strong>{{ user.email }}</strong> ]
+        </span>
           {% endif %}
           <form
             action="{% url 'logout' %}"
@@ -62,7 +106,7 @@
             <input
               type="submit"
               value="Sign out"
-              class="btn btn-outline-light"
+              class="btn btn-outline-light rajdhani-light"
             />
           </form>
         </li>
@@ -257,7 +301,7 @@
       </symbol>
     </svg>
 
-    <div class="container-fluid mt-5">
+    <div class="container-fluid mt-5 rajdhani-regular">
       <div class="row">
         {% include "partials/_sidebar.html" %}
         <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4">

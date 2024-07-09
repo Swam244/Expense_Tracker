@@ -57,18 +57,48 @@
         display: block;
         text-align: center;
         margin-top: 15px;
-    }
+    }.rajdhani-light {
+        font-family: "Rajdhani", sans-serif;
+        font-weight: 300;
+        font-style: normal;
+      }
+      
+      .rajdhani-regular {
+        font-family: "Rajdhani", sans-serif;
+        font-weight: 400;
+        font-size: 125%;
+        font-style: normal;
+      }
+      
+      .rajdhani-medium {
+        font-family: "Rajdhani", sans-serif;
+        font-weight: 500;
+        font-style: normal;
+      }
+      
+      .rajdhani-semibold {
+        font-family: "Rajdhani", sans-serif;
+        font-weight: 600;
+        font-style: normal;
+      }
+      
+      .rajdhani-bold {
+        font-family: "Rajdhani", sans-serif;
+        font-weight: 700;
+        font-size: 175%;
+        font-style: normal;
+      }
 </style>
 <div class="container">
     <div class="header-logo mt-5">
         <img src="{% static 'img/applogo.png' %}" alt="Logo"> <!-- Replace with your logo path -->
-        <h1>Personal Expense Tracker</h1>
+        <h1 class="rajdhani-light">Personal Expense Tracker</h1>
     </div>
     <div class="row">
         <div class="col-md-6 col-lg-4">
-            <div class="card mt-3">
+            <div class="card mt-1">
                 <div class="card-title">
-                    <h4>Login to your Account</h4>
+                    <h4 class="rajdhani-semibold">Login to your Account</h4>
                 </div>
                 <div class="card-body">
                     <form action="{% url 'login' %}" method="post">
