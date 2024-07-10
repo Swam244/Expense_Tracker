@@ -1,173 +1,113 @@
+{% extends "base.html" %}
+{% block title %}Dashboard{% endblock title %}
+{% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Expense Tracker Dashboard</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .dashboard {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        
-        .summary {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
-        }
-        
-        .card {
-            flex: 1;
-            margin: 0 10px;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            text-align: center;
-        }
-        
-        .card h3 {
-            margin-top: 0;
-        }
-        
-        .today {
-            background-color: #007bff;
-            color: #fff;
-        }
-        
-        .week {
-            background-color: #6c757d;
-            color: #fff;
-        }
-        
-        .month {
-            background-color: #28a745;
-            color: #fff;
-        }
-        
-        .year {
-            background-color: #17a2b8;
-            color: #fff;
-        }
-        
-        .charts {
-            display: flex;
-            justify-content: space-between;
-        }
-        
-        canvas {
-            flex: 1;
-            margin: 0 10px;
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-    </style>
-</head>
-<body>
-    <div class="dashboard">
-        <div class="summary">
-            <div class="card today">
-                <h3>Today</h3>
-                <p>2</p>
-                <p>505000.0</p>
-            </div>
-            <div class="card week">
-                <h3>This Week</h3>
-                <p>11</p>
-                <p>2475100.0</p>
-            </div>
-            <div class="card month">
-                <h3>This Month</h3>
-                <p>11</p>
-                <p>2475100.0</p>
-            </div>
-            <div class="card year">
-                <h3>This Year</h3>
-                <p>11</p>
-                <p>2475100.0</p>
-            </div>
+<style>
+    body {
+        background-color: #f8f9fa;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .dashboard {
+        max-width: 1100px;
+        max-height:175px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+    
+    .summary {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+    }
+    
+    .card {
+        flex: 1;
+        margin: 0 10px;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        text-align: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+    }
+    
+    .card h3 {
+        margin-top: 0;
+        font-size: 1.5em;
+    }
+    
+    .card p {
+        margin: 10px 0;
+        font-size: 1.2em;
+    }
+    
+    .today {
+        background-color: #007bff;
+        color: #fff;
+    }
+    
+    .week {
+        background-color: #6c757d;
+        color: #fff;
+    }
+    
+    .month {
+        background-color: #28a745;
+        color: #fff;
+    }
+    
+    .year {
+        background-color: #17a2b8;
+        color: #fff;
+    }
+    
+    .charts {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    canvas {
+        flex: 1;
+        margin: 0 10px;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+    }
+</style>
+
+<div class="dashboard">
+    <div class="summary">
+        <div class="card today">
+            <h3>Total Income</h3>
+            <p>{{incomeCnt}}</p>
+            <p>{{totalIncome}}</p>
         </div>
-        <div class="charts">
-            <canvas id="yearChart"></canvas>
-            <canvas id="weekChart"></canvas>
+        <div class="card week">
+            <h3>This Year</h3>
+            <p>{{yincomeCnt}}</p>
+            <p>{{yearlyIncome}}</p>
+        </div>
+        <div class="card month">
+            <h3>Total Expenses</h3>
+            <p>{{expenseCnt}}</p>
+            <p>{{totalExpenses}}</p>
+        </div>
+        <div class="card year">
+            <h3>This Year</h3>
+            <p>{{yexpenseCnt}}</p>
+            <p>{{yearlyExpense}}</p>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="script.js"></script>
-    
-    <script>
-        
-        // Get context for the charts
-        const yearCtx = document.getElementById('yearChart').getContext('2d');
-        const weekCtx = document.getElementById('weekChart').getContext('2d');
-        
-        // Data for the year chart
-        const yearData = {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            datasets: [{
-        label: 'This year',
-        data: [0, 0, 0, 500000, 0, 0, 0, 0, 0, 0, 0, 0],
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
-        fill: true
-    }]
-};
-
-// Data for the week chart
-const weekData = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-    datasets: [{
-        label: 'This week',
-        data: [0, 0, 0, 0, 350000, 0, 0],
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
-        fill: true
-    }]
-};
-
-// Create the year chart
-const yearChart = new Chart(yearCtx, {
-    type: 'line',
-    data: yearData,
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
-
-// Create the week chart
-const weekChart = new Chart(weekCtx, {
-    type: 'line',
-    data: weekData,
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
-
-</script>
-</body>
-</html>
+</div> 
+<div class="dashboard">
+    <div class="summary">
+    </div>
+</div> 
+{% endblock content %}

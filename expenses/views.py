@@ -16,6 +16,14 @@ import csv
 import xlwt
 import os
 
+def is_float(string):
+    try:
+        # float() is a built-in function
+        float(string)
+        return True
+    except ValueError:
+        return False
+
 @login_required(login_url='authentication/login')   # Without login it cannot let the page reload.
 def index(request):
     cat = newCat.objects.all()
@@ -83,7 +91,11 @@ def expense_edit(request,id):
         if not amount:
             messages.error(request,"Amount is required !!")
             return render(request,"expenses/edit-expense.html",context)
-     
+        
+        if not is_float(amount):
+            messages.error(request,"Please Enter Valid amount!!")
+            return render(request,"expenses/edit-expense.html",context)
+        
         description = request.POST['description']
         if not description:
             messages.error(request,"Description is required !!")
