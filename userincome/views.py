@@ -17,11 +17,16 @@ def index(request):
     personalSources = newSrc.objects.all()
     sources = Source.objects.all()
     income = UserIncome.objects.filter(owner=request.user)
-    currency = UserPreferences.objects.get(user = request.user).currency
+    currency = UserPreferences.objects.filter(user = request.user).exists()
     paginator = Paginator(income,5)
     page_number = request.GET.get('page')
     page_object = paginator.get_page(page_number)
-    return render(request,"income/index.html",{'sources':sources,'income':income,'page_obj':page_object,'currency':currency,'personalsrc':personalSources})
+    if currency:
+        val = UserPreferences.objects.get(user=request.user).currency
+        print(val)
+    else:
+        val = "INR - Indian Rupee"
+    return render(request,"income/index.html",{'sources':sources,'income':income,'page_obj':page_object,'currency':val,'personalsrc':personalSources})
 
 
 @login_required(login_url='authentication/login')   # Without login it cannot let the page reload.
@@ -37,7 +42,9 @@ def add_income(request):
         if not amount:
             messages.error(request,"Amount is required !!")
             return render(request,"income/add-income.html",{'sources':sources,'values':values,'personalsrc':personalSources})
-        
+        if float(amount) == 0.0:
+            messages.error(request,"Amount cannot be Zero !!")
+            return render(request,"income/add-income.html",{'sources':sources,'values':values,'personalsrc':personalSources})
         description = request.POST['description']
         if not description:
             messages.error(request,"Description is required !!")

@@ -54,6 +54,9 @@ def add_expense(request):
         if not amount:
             messages.error(request,"Amount is required !!")
             return render(request,"expenses/add-expense.html",{'categories':categories,'values':values,'personalcat':cat})
+        if float(amount) == 0.0:
+            messages.error(request,"Amount cannot be Zero !!")
+            return render(request,"expenses/add-expense.html",{'categories':categories,'values':values,'personalcat':cat})
         
         description = request.POST['description']
         if not description:

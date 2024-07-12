@@ -1,8 +1,16 @@
 from django.shortcuts import render
 from expenses.models import Expense
 from userincome.models import UserIncome
+from userpreferences.models import UserPreferences
+from django.contrib import messages
 import datetime
+
 def index(request):
+    exist = UserPreferences.objects.filter(user = request.user).exists()
+    if not exist:
+        messages.info(request,"It is Recommended that you set your default currency. Please Check in General Settings")
+        messages.info(request,"For now your default currency is INR - Indian Rupee")
+        
     expenses = Expense.objects.filter(owner=request.user)
     income = UserIncome.objects.filter(owner=request.user)
     yearlyIncome = 0
