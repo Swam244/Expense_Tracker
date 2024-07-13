@@ -11,7 +11,12 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 from django.contrib import messages
+from dotenv import load_dotenv, dotenv_values
+
+load_dotenv()
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -82,13 +87,13 @@ WSGI_APPLICATION = 'expenseTracker.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'incomeexpensesdb',
-        'USER':'postgres',
-        'PASSWORD':'password',
-        'HOST':'localhost',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASS'),
+        'HOST': os.getenv('HOST'),
     }
 }
-
+print(os.getenv('DB_PASS'))
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -139,9 +144,9 @@ MESSAGE_TAGS = {
 
 # SETTING UP EMAIL.
 
-EMAIL_HOST_USER = "testmailingexpensetracker@gmail.com"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_PASSWORD = "fqej xylz rxkj qhrs"
-DEFAULT_FROM_EMAIL = "testmailingexpensetracker@gmail.com"
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST = os.getenv("EMAIL_HOST")
+EMAIL_HOST_PASSWORD =  os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = os.getenv("DEFAULT_FROM_EMAIL")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_TLS = os.getenv("EMAIL_USE_TLS")

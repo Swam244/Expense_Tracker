@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "357b7f98ff3eed8547ed64f1e10b29af53f99d2161f2d61fc6af8fa6d346b3e5"
+            "sha256": "8055e0cc4003a7234de7d8c4c4e491fa14a4166d6c711b92710f83044b34bfb4"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -360,12 +360,12 @@
         },
         "django": {
             "hashes": [
-                "sha256:8363ac062bb4ef7c3f12d078f6fa5d154031d129a15170a1066412af49d30905",
-                "sha256:ff1b61005004e476e0aeea47c7f79b85864c70124030e95146315396f1e7951f"
+                "sha256:bd4505cae0b9bd642313e8fb71810893df5dc2ffcacaa67a33af2d5cd61888f2",
+                "sha256:f216510ace3de5de01329463a315a629f33480e893a9024fc93d8c32c22913da"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.10'",
-            "version": "==5.0.6"
+            "version": "==5.0.7"
         },
         "fonttools": {
             "extras": [
@@ -705,11 +705,11 @@
         },
         "pydyf": {
             "hashes": [
-                "sha256:357194593efaf61d7b48ab97c3d59722114934967c3df3d7878ca6dd25b04c30",
-                "sha256:ef76b6c0976a091a9e15827fb5800e5e37e7cd1a3ca4d4bd19d10a14ea8c0ae3"
+                "sha256:0aaf9e2ebbe786ec7a78ec3fbffa4cdcecde53fd6f563221d53c6bc1328848a3",
+                "sha256:394dddf619cca9d0c55715e3c55ea121a9bf9cbc780cdc1201a2427917b86b64"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==0.10.0"
+            "version": "==0.11.0"
         },
         "pyhanko": {
             "hashes": [
@@ -756,6 +756,15 @@
                 "sha256:5347f71e82b3e9976dc657f09ded2bfe39ba8d6777ca81a5b2c56c30121c496e"
             ],
             "version": "==0.4.2"
+        },
+        "python-dotenv": {
+            "hashes": [
+                "sha256:e324ee90a023d808f1959c46bcbc04446a10ced277783dc6ee09987c37ec10ca",
+                "sha256:f7b63ef50f1b690dddf550d03497b66d609393b40b564ed0d674909a68ebf16a"
+            ],
+            "index": "pypi",
+            "markers": "python_version >= '3.8'",
+            "version": "==1.0.1"
         },
         "pyyaml": {
             "hashes": [
