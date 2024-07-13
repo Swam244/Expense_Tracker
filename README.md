@@ -71,7 +71,7 @@ Our Expense Tracker website is a powerful tool designed to help users efficientl
     EMAIL_USE_TLS = True
     ```
     and also make changes in the database section of settings.py, it should look like this
-    ![screenshot](img/screenshot.png)
+    ![screenshot](screenshot.png)
     
 
 5. Apply migrations:
