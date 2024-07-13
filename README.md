@@ -46,6 +46,8 @@ Our Expense Tracker website is a powerful tool designed to help users efficientl
     ```
 7. Make Changes in environment variables in the .env file:
     ###### Create a .env file in the root folder and set your corresponding values to these variables.
+    ####
+    ###### 1. If using another database than default.
     ```bash
     DB_NAME = "Your Database name"
     DB_USER = "User on your Database"
@@ -58,7 +60,19 @@ Our Expense Tracker website is a powerful tool designed to help users efficientl
     EMAIL_PORT = 587
     EMAIL_USE_TLS = True
     ```
-
+    ####
+    ###### 2. If using Django's default sqlite3 database.
+    ```bash
+    EMAIL_HOST_USER = "Your email host for sending mail"
+    EMAIL_HOST = "smtp.gmail.com"
+    EMAIL_HOST_PASSWORD = "Host password(generated thru third party feature of google mail)"
+    DEFAULT_FROM_EMAIL = ""
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    ```
+    and also make changes in the database section of settings.py, it should look like this
+    ![screenshot](img/screenshot.png)
+    
 
 5. Apply migrations:
     ```bash
