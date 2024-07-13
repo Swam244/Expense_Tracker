@@ -7,6 +7,7 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from userpreferences.models import UserPreferences
 from django.http import HttpResponse
+from expenses.utils import *
 import datetime
 import csv
 import json
@@ -42,9 +43,15 @@ def add_income(request):
         if not amount:
             messages.error(request,"Amount is required !!")
             return render(request,"income/add-income.html",{'sources':sources,'values':values,'personalsrc':personalSources})
+        
+        if not is_float(amount):
+            messages.error(request,"Please Enter Valid amount!!")
+            return render(request,"income/add-income.html",{'sources':sources,'values':values,'personalsrc':personalSources})
+        
         if float(amount) == 0.0:
             messages.error(request,"Amount cannot be Zero !!")
             return render(request,"income/add-income.html",{'sources':sources,'values':values,'personalsrc':personalSources})
+        
         description = request.POST['description']
         if not description:
             messages.error(request,"Description is required !!")
@@ -82,7 +89,15 @@ def income_edit(request,id):
         if not amount:
             messages.error(request,"Amount is required !!")
             return render(request,"income/edit-income.html",context)
-     
+
+        if not is_float(amount):
+            messages.error(request,"Please Enter Valid amount!!")
+            return render(request,"income/edit-income.html",context)
+    
+        if float(amount) == 0.0:
+            messages.error(request,"Amount cannot be Zero !!")
+            return render(request,"income/edit-income.html",context)
+        
         description = request.POST['description']
         if not description:
             messages.error(request,"Description is required !!")

@@ -8,4 +8,5 @@ urlpatterns = [
     path('preferences/',include('userpreferences.urls')),
     path('income/',include('userincome.urls')),
     path('dashboard/',include('dashboard.urls')),
+    path('acsettings/',include('acsettings.urls')),
 ]

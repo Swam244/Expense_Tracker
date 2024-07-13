@@ -8,7 +8,7 @@ from django.http import JsonResponse,HttpResponse
 from userpreferences.models import UserPreferences
 from django.template.loader import render_to_string
 from django.db.models import Sum
-from .utils import html_to_pdf
+from .utils import html_to_pdf,is_float
 import tempfile
 import json
 import datetime
@@ -16,13 +16,6 @@ import csv
 import xlwt
 import os
 
-def is_float(string):
-    try:
-        # float() is a built-in function
-        float(string)
-        return True
-    except ValueError:
-        return False
 
 @login_required(login_url='authentication/login')   # Without login it cannot let the page reload.
 def index(request):
@@ -54,6 +47,11 @@ def add_expense(request):
         if not amount:
             messages.error(request,"Amount is required !!")
             return render(request,"expenses/add-expense.html",{'categories':categories,'values':values,'personalcat':cat})
+        
+        if not is_float(amount):
+            messages.error(request,"Please Enter Valid amount!!")
+            return render(request,"expenses/add-expense.html",{'categories':categories,'values':values,'personalcat':cat})
+        
         if float(amount) == 0.0:
             messages.error(request,"Amount cannot be Zero !!")
             return render(request,"expenses/add-expense.html",{'categories':categories,'values':values,'personalcat':cat})
@@ -97,6 +95,10 @@ def expense_edit(request,id):
         
         if not is_float(amount):
             messages.error(request,"Please Enter Valid amount!!")
+            return render(request,"expenses/edit-expense.html",context)
+        
+        if float(amount) == 0.0:
+            messages.error(request,"Amount cannot be Zero !!")
             return render(request,"expenses/edit-expense.html",context)
         
         description = request.POST['description']

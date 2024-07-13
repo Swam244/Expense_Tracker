@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}- Account Settings{% endblock title %}
+{% block content %}
+
+<div class="container mt-5">
+    {% include "partials/_messages.html" %}
+    <h3><strong>Manage Personal Income Sources / Expense Categories</strong></h3>
+</div>
+<div class="d-flex justify-content-between mt-5">
+    <!-- First Table -->
+    <div class="table-responsive" style="width: 48%;">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Income Sources</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for src in incomeSrc %}
+                <tr>
+                    <td>{{ src.name }}</td>
+                    <td>
+                        <a href="{% url 'delete_inc_src' src.id %}" class="btn btn-outline-danger btn-sm delete-btn" onclick="return confirm('Confirm Delete? Deleting will cause all transactions associated with it to get deleted.')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Second Table -->
+    <div class="table-responsive" style="width: 48%;">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Expense Categories</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cat in expenseCat %}
+                <tr>
+                    <td>{{ cat.name }}</td>
+                    <td>
+                        <a href="{% url 'delete_exp_cat' cat.id %}" class="btn btn-outline-danger btn-sm delete-btn" onclick="return confirm('Are you sure you want to delete this?')">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h3><strong>Change Password</strong></h3>
+    <form method="post" action="#">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="currentPassword" class="form-label">Current Password</label>
+            <input type="password" class="form-control" id="currentPassword" name="current_password" required>
+        </div>
+        <div class="mb-3">
+            <label for="newPassword" class="form-label">New Password</label>
+            <input type="password" class="form-control" id="newPassword" name="new_password" required>
+        </div>
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Change Password</button>
+    </form>
+</div>
+
+<div class="container mt-5">
+    <h3><strong>Delete Account</strong></h3>
+    <form method="post" action="#" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.')">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete Account</button>
+    </form>
+</div>
+
+{% endblock content %}

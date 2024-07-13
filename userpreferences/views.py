@@ -2,8 +2,8 @@ from django.shortcuts import render,redirect
 from django.views import View
 import os
 from .models import UserPreferences
-from expenses.models import newCat
-from userincome.models import newSrc
+from expenses.models import newCat,Category
+from userincome.models import newSrc,Source
 import pdb
 import json
 from django.contrib import messages
@@ -55,7 +55,7 @@ def add_income_src(request):
         if not src:
             messages.error(request,"Please Provide a Valid Response")
             return redirect('preferences')
-        exists = newSrc.objects.filter(owner=request.user,name = str(src).upper()).exists()
+        exists = newSrc.objects.filter(owner=request.user,name = str(src).upper()).exists() or Source.objects.filter(name = str(src).upper()).exists()
         if exists:
             messages.error(request,"Category Already Exists!")
             return redirect('preferences')
@@ -69,10 +69,23 @@ def add_expense_cat(request):
         if not cat:
             messages.error(request,"Please Provide a Valid Response")
             return redirect('preferences')
-        exists = newCat.objects.filter(owner=request.user,name = str(cat).upper()).exists()
+        exists = newCat.objects.filter(owner=request.user,name = str(cat).upper()).exists() or Category.objects.filter(name = str(cat).upper()).exists()
         if exists:
             messages.error(request,"Category Already Exists!")
             return redirect('preferences')
         newCat.objects.create(owner=request.user,name = str(cat).upper())
         messages.success(request,"New Expense Category Added Successfully !!")
         return redirect('preferences')
+    
+def delete_exp_cat(request,id):
+    exp_cat = newCat.objects.get(pk = id)
+    exp_cat.delete()
+    messages.success(request,"Deleted Successfully")
+    return redirect('acsettings')
+
+def delete_inc_src(request,id):
+    inc_src = newSrc.objects.get(pk = id)
+    inc_src.delete()
+    messages.success(request,"Deleted Successfully")
+    return redirect('acsettings')
+        

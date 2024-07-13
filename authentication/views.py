@@ -139,7 +139,7 @@ class LoginView(View):
                 if user.is_active:
                     login(request,user)
                     messages.success(request,"Welcome " + username + ", \nYou're Now Logged In.")
-                    return render(request,'index.html')
+                    return redirect('dashboard')
                 else:
                     messages.warning(request,"Your Account is Not Active.\nPlease check your email for verification link.")
                     return render(request,'authentication/login.html') 
