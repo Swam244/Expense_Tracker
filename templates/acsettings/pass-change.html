@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block title %} - Password Change{% endblock title %}
+{% block content %}
+<div class="container mt-5">
+    {%include "partials/_messages.html"%}
+    <h3><strong>Change Password</strong></h3>
+    <form method="post" action="{%url 'change-password'%}">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="oldpass" class="form-label">Current Password</label>
+            <input type="password" class="form-control" id="oldpass" name="oldpass" required>
+        </div>
+        <div class="mb-3">
+            <label for="newPassword" class="form-label">New Password</label>
+            <input type="password" class="form-control" id="newPassword" name="new_password" required>
+        </div>
+        <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirm New Password</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirm_password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Change Password</button>
+    </form>
+</div>
+{% endblock content %}

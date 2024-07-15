@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'userincome',
     'dashboard',
     'acsettings',
+    
+    'login_history',
 ]
 
 MIDDLEWARE = [
@@ -80,21 +82,32 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'expenseTracker.wsgi.application'
 
-
+ENV_CONDITION = os.getenv('ENVIRONMENT')
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv('DB_NAME'),
-        'USER': os.getenv('DB_USER'),
-        'PASSWORD': os.getenv('DB_PASS'),
-        'HOST': os.getenv('HOST'),
+if ENV_CONDITION == "local":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('DB_NAME'),
+            'USER': os.getenv('DB_USER'),
+            'PASSWORD': os.getenv('DB_PASS'),
+            'HOST': os.getenv('HOST'),
+        }
     }
-}
-print(os.getenv('DB_PASS'))
-
+    
+if ENV_CONDITION == "production":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.getenv('PROD_DB_NAME'),
+            'USER': os.getenv('PROD_DB_USER'),
+            'PASSWORD': os.getenv('PROD_DB_PASS'),
+            'HOST': os.getenv('PROD_HOST'),
+            'PORT':os.getenv('PROD_PORT'),
+        }
+    }
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 

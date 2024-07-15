@@ -12,6 +12,7 @@ xlwt = "*"
 weasyprint = "*"
 xhtml2pdf = "*"
 python-dotenv = "*"
+dj-user-login-history = "*"
 
 [dev-packages]
 

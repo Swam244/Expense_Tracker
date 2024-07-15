@@ -1,87 +1,8 @@
 {% extends "base.html" %}
 {% block title %}Dashboard{% endblock title %}
 {% block content %}
-
-<style>
-    body {
-        background-color: #f8f9fa;
-        margin: 0;
-        padding: 0;
-    }
-    
-    .dashboard {
-        max-width: 1100px;
-        max-height:175px;
-        margin: 40px auto;
-        padding: 20px;
-    }
-    
-    .summary {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 20px;
-    }
-    
-    .card {
-        flex: 1;
-        margin: 0 10px;
-        padding: 20px;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 15px;
-        text-align: center;
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
-    
-    .card:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
-    }
-    
-    .card h3 {
-        margin-top: 0;
-        font-size: 1.5em;
-    }
-    
-    .card p {
-        margin: 10px 0;
-        font-size: 1.2em;
-    }
-    
-    .today {
-        background-color: #007bff;
-        color: #fff;
-    }
-    
-    .week {
-        background-color: #6c757d;
-        color: #fff;
-    }
-    
-    .month {
-        background-color: #28a745;
-        color: #fff;
-    }
-    
-    .year {
-        background-color: #17a2b8;
-        color: #fff;
-    }
-    
-    .charts {
-        display: flex;
-        justify-content: space-between;
-    }
-    
-    canvas {
-        flex: 1;
-        margin: 0 10px;
-        background-color: #fff;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-    }
-</style>
-
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/main-index.css' %}">
 <div class="dashboard">
     {% include 'partials/_messages.html' %}
     <div class="summary">
