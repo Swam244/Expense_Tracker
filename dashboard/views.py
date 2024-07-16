@@ -3,8 +3,10 @@ from expenses.models import Expense
 from userincome.models import UserIncome
 from userpreferences.models import UserPreferences
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 import datetime
 
+@login_required(login_url='login')
 def index(request):
     exist = UserPreferences.objects.filter(user = request.user).exists()
     if not exist:

@@ -16,8 +16,7 @@ import csv
 import xlwt
 import os
 
-
-@login_required(login_url='authentication/login')   # Without login it cannot let the page reload.
+@login_required(login_url='login')   # Without login it cannot let the page reload.
 def index(request):
     cat = newCat.objects.all()
     categories = Category.objects.all()
@@ -33,7 +32,7 @@ def index(request):
         val = "INR - Indian Rupee"
     return render(request,"expenses/index.html",{'categories':categories,'expenses':expenses,'page_obj':page_object,'currency':val,'personalcat':cat})
 
-@login_required(login_url='authentication/login')   # Without login it cannot let the page reload.
+@login_required(login_url='login')   # Without login it cannot let the page reload.
 def add_expense(request):
     cat = newCat.objects.all()
     categories = Category.objects.all()
@@ -73,7 +72,7 @@ def add_expense(request):
             messages.error(request,"Please Specifiy Date of Expense")
             return render(request,"expenses/add-expense.html",{'categories':categories,'values':values,'personalcat':cat})
         
-@login_required(login_url='authentication/login')   # Without login it cannot let the page reload.
+@login_required(login_url='login')  # Without login it cannot let the page reload.
 def expense_edit(request,id):
     cat = newCat.objects.all()
     categories = Category.objects.all()
@@ -125,7 +124,7 @@ def expense_edit(request,id):
             messages.error(request,"Please Specifiy Date of Expense")
             return render(request,"expenses/edit-expense.html",context)
         
-@login_required(login_url='authentication/login')   # Without login it cannot let the page reload. 
+@login_required(redirect_field_name='login')  # Without login it cannot let the page reload. 
 def expense_delete(request,id):
     expense = Expense.objects.get(pk = id)
     expense.delete()

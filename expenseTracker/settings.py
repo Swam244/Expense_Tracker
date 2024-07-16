@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-vd!a765*flg)3f!0xy39xayt&^(j&c^v#^!3l^he1#gero9*ri
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app','.now.sh','127.0.0.1','localhost']
 
 
 # Application definition
@@ -83,6 +83,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'expenseTracker.wsgi.application'
 
 ENV_CONDITION = os.getenv('ENVIRONMENT')
+print(ENV_CONDITION)
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
@@ -143,8 +144,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR/'expenseTracker/static']
-# STATIC_ROOT = os.path.join(BASE_DIR,'static')
+STATICFILES_DIRS = os.path.join(BASE_DIR,'expenseTracker/static'),
+# For Production
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles_build','static') 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
