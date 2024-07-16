@@ -5,5 +5,6 @@ then
     python get-pip.py --user
     export PATH=$PATH:~/.local/bin
 fi
-pip install -r requirements.txt
+
+python3.9 pip install -r requirements.txt
 python3.9 manage.py collectstatic
